@@ -1,0 +1,55 @@
+DIALS spotfinder annotation for the five datasets
+
+Note:  results in the repository are those initially computed Jan 25, 2017.
+The current DIALS package (Jan 30, 2018) gives slightly different results for LG36.
+
+Timings for 2000 images, performed with Python multiprocessing with 16 cores,
+on a 64-bit Intel Xeon E5 (2.1 GHz), 20 MB cache, 125 GB RAM 
+running Redhat Enterprise Linux Server 7.3 with code compiled under GCC 4.8.5
+ 
+L498, 100.2 sec
+LG36, 79.3 sec
+LN84, 89.2 sec
+LN83, 80.3 sec
+LO19, 80.9 sec
+
+cd ${TMP}
+
+cp ${DATA}/l498/r0027_2000.h5 /dev/shm
+dials.import /dev/shm/r0027_2000.h5
+time dials.find_spots datablock.json gain=4.55 nproc=16 dispersion.global_threshold=100 sigma_strong=6
+libtbx.python ../scripts/annotate_spotfinding.py strong.pickle 30 > dials_annotate_l498.txt
+
+cp ${DATA}/lg36/r0087_2000.h5 /dev/shm
+cp ${fv5080}/annotation/LG36/mask2.pickle /dev/shm
+time dials.import /dev/shm/r0087_2000.h5
+time dials.find_spots datablock.json gain=15.64 nproc=16 dispersion.global_threshold=100 min_spot_size=2 lookup.mask=/dev/shm/mask2.pickle
+libtbx.python ../scripts/annotate_spotfinding.py strong.pickle 20 > dials_annotate_lg36.txt
+
+cp ${DATA}/ln84/r0095_2000.h5 /dev/shm
+cp ${fv5080}/annotation/LN84/mask.pickle /dev/shm
+dials.import /dev/shm/r0095_2000.h5
+time dials.find_spots datablock.json gain=0.31 nproc=16 dispersion.global_threshold=200 lookup.mask=/dev/shm/mask.pickle
+libtbx.python ../scripts/annotate_spotfinding.py strong.pickle 30 > dials_annotate_ln84.txt
+
+cp ${DATA}/ln83/r0018_2000.h5 /dev/shm
+cp ${fv5080}/annotation/LN83/mask.pickle /dev/shm
+dials.import /dev/shm/r0018_2000.h5
+time dials.find_spots datablock.json gain=0.27 nproc=16 dispersion.global_threshold=200 lookup.mask=/dev/shm/mask.pickle
+libtbx.python ../scripts/annotate_spotfinding.py strong.pickle 15 > dials_annotate_ln83.txt
+
+cp ${DATA}/lo19/r0020_2000.h5 /dev/shm
+cp ${fv5080}/annotation/LO19/mask.pickle /dev/shm
+dials.import /dev/shm/r0020_2000.h5
+time dials.find_spots datablock.json gain=0.19 nproc=16 dispersion.global_threshold=200 lookup.mask=/dev/shm/mask.pickle
+libtbx.python ${fv5080}/annotation/annotate_spotfinding.py strong.pickle 50 > dials_annotate_lo19.txt
+
+
+
+
+
+
+
+
+
+
