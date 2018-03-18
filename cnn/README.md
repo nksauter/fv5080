@@ -53,7 +53,7 @@ The model will be saved as checkpoint/``SUBSET``/single_dataset/``simple_cnn,...
 
 The model will be saved as checkpoint/multiple/multiple_dataset/``simple_cnn,....``/``DATA_TIME``/best_model.t7
 
-### Testing with single dataset
+### Testing with multiple dataset
 ```
 # Change MODEL_PATH in scripts/test_multiple.sh to checkpoint/multiple/multiple_dataset/simple_cnn,..../DATA_TIME
 # Run the code
