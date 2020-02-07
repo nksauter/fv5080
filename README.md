@@ -1,8 +1,8 @@
 # fv5080
-Code related to Journal of Synchrotron Radiation paper FV5080.
-<br>
+### Code related to Journal of Synchrotron Radiation paper FV5080.
+
 Tsung-Wei Ke, Aaron S. Brewster, Stella X. Yu, Daniela Ushizima, Chao Yang, and Nicholas K. Sauter (2018).
-A Convolutional Neural Network-Based Screening Tool for X-ray Serial Crystallography.  <em>J. Synchrotron Rad.<\em> <bf>25<\bf>, 655-670.
+A Convolutional Neural Network-Based Screening Tool for X-ray Serial Crystallography.  *J. Synchrotron Rad.* **25**, 655-670.
 https://doi.org/10.1107/S1600577518004873.
 
 Explanation:
