@@ -8,14 +8,11 @@ https://doi.org/10.1107/S1600577518004873.
 Explanation:
 Raw data (five datasets) may be downloaded from the Coherent X-ray Imaging Data Bank at the following URL:
 http://cxidb.org/id-76.html
-Please note that each file is large (about 13 GB). 
+Please note that each file is large (about 13 GB).
 
 Data are written in HDF5 format, 2000 images per dataset.
-Image data may be viewed with the program dials.image_viewer as follows:
-1) Download the DIALS program from https://dials.github.io
-2) Work on your local machine--slow X-connections will stall.
-3) Download the FormatHDF5ImageDictionary.py file from this repository and place it in the following new directory
-   created on your local filesystem;  ${HOME}/.dxtbx/
-4) Use the command dials.image_viewer <*.h5 file>
-
-
+Image data may be viewed with the program `dials.image_viewer` as follows:
+1) Download DIALS from https://dials.github.io
+2) Work on your local machine – slow X-connections will stall.
+3) Install the image format class with `dxtbx.install_format -u https://raw.githubusercontent.com/nksauter/fv5080/master/FormatHDF5ImageDictionary.py`
+4) Use the command `dials.image_viewer <*.h5 file>`
