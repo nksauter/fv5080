@@ -2,6 +2,7 @@ from __future__ import division, print_function
 from dxtbx.format.Format import Format
 from dxtbx.format.FormatHDF5 import FormatHDF5
 from dxtbx.format.FormatStill import FormatStill
+from dxtbx.format.nexus import h5str
 
 class FormatHDF5ImageDictionary(FormatHDF5, FormatStill):
 
@@ -15,7 +16,7 @@ class FormatHDF5ImageDictionary(FormatHDF5, FormatStill):
     h5_handle = h5py.File(image_file, 'r')
     fv5080 = 'metadata' in h5_handle and \
       'idh5_version' in h5_handle['metadata'] and \
-      h5_handle['metadata/idh5_version'].value == 'idh5_v1.0'
+      h5str(h5_handle['metadata/idh5_version'][()]) == 'idh5_v1.0'
     if fv5080: print("Understood H5 format for FV5080 paper.")
     return fv5080
 
@@ -44,16 +45,16 @@ class FormatHDF5ImageDictionary(FormatHDF5, FormatStill):
     return self._detector_factory.simple(
         sensor = 'PAD',
         distance = self._h5_handle['data/%s/distance'%chunkname][chunkindex],
-        beam_centre = (self._h5_handle['metadata']['BEAM_CENTER_X'].value,
-                       self._h5_handle['metadata']['BEAM_CENTER_Y'].value),
+        beam_centre = (self._h5_handle['metadata']['BEAM_CENTER_X'][()],
+                       self._h5_handle['metadata']['BEAM_CENTER_Y'][()]),
         fast_direction = '+x',
         slow_direction = '-y',
-        pixel_size = (self._h5_handle['metadata']['PIXEL_SIZE'].value,
-                      self._h5_handle['metadata']['PIXEL_SIZE'].value),
-        image_size = (self._h5_handle['metadata']['SIZE1'].value,
-                      self._h5_handle['metadata']['SIZE2'].value),
-        trusted_range = (self._h5_handle['metadata']['MIN_TRUSTED_VALUE'].value,
-                         self._h5_handle['metadata']['SATURATED_VALUE'].value),
+        pixel_size = (self._h5_handle['metadata']['PIXEL_SIZE'][()],
+                      self._h5_handle['metadata']['PIXEL_SIZE'][()]),
+        image_size = (self._h5_handle['metadata']['SIZE1'][()],
+                      self._h5_handle['metadata']['SIZE2'][()]),
+        trusted_range = (self._h5_handle['metadata']['MIN_TRUSTED_VALUE'][()],
+                         self._h5_handle['metadata']['SATURATED_VALUE'][()]),
         mask = [])  # a list of dead rectangles
 
   def get_mask(self, index=None, goniometer=None):
@@ -62,7 +63,7 @@ class FormatHDF5ImageDictionary(FormatHDF5, FormatStill):
 
     from scitbx.array_family import flex
     # get effective active area coordinates
-    tiling = flex.int(self._h5_handle['metadata']['ACTIVE_AREAS'].value)
+    tiling = flex.int(self._h5_handle['metadata']['ACTIVE_AREAS'][()])
     if tiling is None or len(tiling) == 0:
       return None
 
@@ -114,7 +115,7 @@ class FormatHDF5ImageDictionary(FormatHDF5, FormatStill):
     from scitbx.array_family import flex
     if index is None: index = 0
     chunkname, chunkindex = self._get_chunk_and_index(index)
-    import numpy as np 
+    import numpy as np
     return flex.int(self._h5_handle['data/%s/images'%chunkname][chunkindex].astype(np.int32))
 
   def get_num_images(self):
