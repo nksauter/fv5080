@@ -26,13 +26,13 @@ if not os.path.isdir(root_dir):
 
 id = 0
 for key in db['data'].keys():
-  img_datas = db['data'][key]['images'].value
+  img_datas = db['data'][key]['images']
   for i in range(img_datas.shape[0]):
     id += 1
     img = img_datas[i]
     img[img < 0] = 0
     pil_img = Image.fromarray(img, mode='I')
-    pil_img = pil_img.resize((960, 960), Image.BILINEAR)
+    pil_img = pil_img.resize((960, 960), Image.Resampling.BILINEAR) #Needed for Pillow 10
     img_name = '{:05d}.png'.format(id)
     img_path = os.path.join(root_dir, img_name)
     pil_img.save(img_path)
